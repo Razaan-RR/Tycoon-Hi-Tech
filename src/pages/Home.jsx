@@ -7,11 +7,13 @@ import AboutBrand from "../components/sections/AboutBrand";
 import ProductShowcase from "../components/sections/ProductShowcase";
 import Testimonials from "../components/sections/Testimonials";
 import Contact from "../components/sections/Contact";
+import VideoMarquee from "../components/sections/VideoMarquee";
 
 function Home() {
   return (
     <>
       <Navbar />
+      <VideoMarquee></VideoMarquee>
       <Hero />
       <ProductCategories />
       <Highlights />
