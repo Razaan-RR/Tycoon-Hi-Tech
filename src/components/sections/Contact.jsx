@@ -26,22 +26,16 @@ const Contact = () => {
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/api/contact`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
       })
 
       const data = await res.json()
-
       if (data.success) {
         setStatus('Message sent successfully!')
         setForm({ name: '', email: '', message: '' })
-      } else {
-        setStatus('Something went wrong. Please try again.')
-      }
-    } catch (error) {
-      console.error(error)
+      } else setStatus('Something went wrong. Please try again.')
+    } catch {
       setStatus('Server error. Please try again later.')
     } finally {
       setLoading(false)
@@ -57,69 +51,69 @@ const Contact = () => {
 
         <motion.div
           initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false }}
           transition={{ duration: 1, ease: 'easeOut' }}
-          className="bg-gradient-to-br from-[#0a1a2f] to-[#020816]
-                     rounded-2xl p-10 border border-blue-500/20 shadow-lg"
+          className="relative rounded-2xl p-1 bg-gradient-to-r from-blue-500/50 via-cyan-400/50 to-blue-500/50 animate-glow shadow-md"
         >
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <input
-              type="text"
-              name="name"
-              value={form.name}
-              onChange={handleChange}
-              placeholder="Your Name"
-              required
-              className="w-full p-3 rounded-lg bg-[#050b16]
-                         border border-blue-500/30 text-white
-                         focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
-
-            <input
-              type="email"
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-              placeholder="Your Email"
-              required
-              className="w-full p-3 rounded-lg bg-[#050b16]
-                         border border-blue-500/30 text-white
-                         focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
-
-            <textarea
-              name="message"
-              value={form.message}
-              onChange={handleChange}
-              rows={5}
-              placeholder="Your Message"
-              required
-              className="w-full p-3 rounded-lg bg-[#050b16]
-                         border border-blue-500/30 text-white
-                         focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
-
-            <button
-              type="submit"
-              disabled={loading}
-              className={`bg-gradient-to-r from-blue-500 to-cyan-400
-                          px-8 py-3 rounded-lg font-semibold text-black
-                          transition-all duration-300
-                          ${
-                            loading
-                              ? 'opacity-50 cursor-not-allowed'
-                              : 'hover:from-cyan-400 hover:to-blue-500'
-                          }`}
-            >
-              {loading ? 'Sending...' : 'Send Message'}
-            </button>
-
-            {status && (
-              <p className="text-center text-sm text-blue-400 mt-2">{status}</p>
-            )}
-          </form>
+          <div className="bg-gradient-to-br from-[#0a1a2f] to-[#020816] rounded-2xl p-10 border border-blue-500/20">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <input
+                type="text"
+                name="name"
+                value={form.name}
+                onChange={handleChange}
+                placeholder="Your Name"
+                required
+                className="w-full p-3 rounded-lg bg-[#050b16] border border-blue-500/30 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+              />
+              <input
+                type="email"
+                name="email"
+                value={form.email}
+                onChange={handleChange}
+                placeholder="Your Email"
+                required
+                className="w-full p-3 rounded-lg bg-[#050b16] border border-blue-500/30 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+              />
+              <textarea
+                name="message"
+                value={form.message}
+                onChange={handleChange}
+                rows={5}
+                placeholder="Your Message"
+                required
+                className="w-full p-3 rounded-lg bg-[#050b16] border border-blue-500/30 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+              />
+              <button
+                type="submit"
+                disabled={loading}
+                className={`bg-gradient-to-r from-blue-500 to-cyan-400 px-8 py-3 rounded-lg font-semibold text-black transition-all duration-300 ${
+                  loading ? 'opacity-50 cursor-not-allowed' : 'hover:from-cyan-400 hover:to-blue-500'
+                }`}
+              >
+                {loading ? 'Sending...' : 'Send Message'}
+              </button>
+              {status && <p className="text-center text-sm text-blue-400 mt-2">{status}</p>}
+            </form>
+          </div>
         </motion.div>
       </div>
+
+      <style>
+        {`
+          @keyframes glowMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+          }
+          .animate-glow {
+            background-size: 200% 200%;
+            animation: glowMove 4s linear infinite;
+            border-radius: 1rem;
+          }
+        `}
+      </style>
     </section>
   )
 }

@@ -1,4 +1,12 @@
+import React, { useEffect, useRef } from 'react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
+
 function Highlights() {
+  const highlightsRef = useRef(null)
+
   const highlights = [
     {
       title: 'Designed for Performance',
@@ -22,14 +30,61 @@ function Highlights() {
     },
   ]
 
+  useEffect(() => {
+    const cards = highlightsRef.current.querySelectorAll('.highlight-card')
+    ScrollTrigger.batch(cards, {
+      start: 'top 80%',
+      onEnter: (batch) => {
+        batch.forEach((card, i) => {
+          const glow = card.querySelector('.card-glow')
+          gsap.fromTo(
+            glow,
+            { scale: 0.8, opacity: 0.3 },
+            {
+              scale: 1,
+              opacity: 0.6,
+              duration: 1.5,
+              repeat: -1,
+              yoyo: true,
+              ease: 'power1.inOut',
+              delay: i * 0.3,
+            }
+          )
+
+          gsap.fromTo(
+            card,
+            { borderColor: 'rgba(59, 130, 246, 0.3)', boxShadow: '0 0 15px rgba(59, 130, 246, 0.1)' },
+            {
+              borderColor: 'rgba(59, 130, 246, 0.7)',
+              boxShadow: '0 0 35px 10px rgba(59, 130, 246, 0.4)',
+              duration: 1.5,
+              repeat: -1,
+              yoyo: true,
+              delay: i * 0.3,
+              ease: 'power1.inOut',
+            }
+          )
+        })
+      },
+      onLeaveBack: (batch) => {
+        batch.forEach((card) => {
+          const glow = card.querySelector('.card-glow')
+          gsap.killTweensOf(glow)
+          gsap.killTweensOf(card)
+        })
+      },
+    })
+  }, [])
+
   return (
-    <section className="relative bg-[#050b16] text-white py-28 px-6 lg:px-16 overflow-hidden">
-      {/* Background Glows */}
+    <section
+      className="relative bg-[#050b16] text-white py-28 px-6 lg:px-16 overflow-hidden"
+      ref={highlightsRef}
+    >
       <div className="absolute -top-24 -left-24 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl" />
       <div className="absolute bottom-0 -right-24 w-[30rem] h-[30rem] bg-cyan-400/10 rounded-full blur-3xl" />
 
       <div className="relative max-w-7xl mx-auto">
-        {/* Title */}
         <div className="text-center mb-20">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold">
             Why <span className="text-blue-400">Tycoon</span>?
@@ -39,20 +94,11 @@ function Highlights() {
           </p>
         </div>
 
-        {/* Highlight Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           {highlights.map((item, index) => (
             <div
               key={index}
-              className="
-                relative bg-gradient-to-br from-[#0a1a2f] to-[#020816]
-                rounded-2xl p-10 min-h-[220px]
-                flex flex-col justify-center
-                border border-blue-500/20
-                shadow-lg hover:shadow-2xl
-                hover:border-blue-400/40
-                transition-all duration-500
-              "
+              className="highlight-card relative bg-gradient-to-br from-[#0a1a2f] to-[#020816] rounded-2xl p-10 min-h-[220px] flex flex-col justify-center border border-blue-500/20 shadow-lg transition-all duration-500"
             >
               {item.big ? (
                 <h3 className="text-4xl md:text-5xl lg:text-6xl font-bold text-blue-400">
@@ -64,12 +110,9 @@ function Highlights() {
                 </h3>
               )}
 
-              <p className="text-gray-300 mt-4 text-sm md:text-base">
-                {item.desc}
-              </p>
+              <p className="text-gray-300 mt-4 text-sm md:text-base">{item.desc}</p>
 
-              {/* Card Glow Accent */}
-              <div className="absolute -top-6 -right-6 w-28 h-28 bg-blue-500/20 rounded-full blur-3xl" />
+              <div className="card-glow absolute -top-6 -right-6 w-36 h-36 bg-blue-500/40 rounded-full blur-3xl" />
             </div>
           ))}
         </div>

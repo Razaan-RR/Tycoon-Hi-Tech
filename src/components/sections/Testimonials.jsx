@@ -1,5 +1,5 @@
-import React from 'react'
-import { motion } from 'framer-motion'
+import React, { useRef } from 'react'
+import { motion, useInView } from 'framer-motion'
 
 const testimonials = [
   {
@@ -13,13 +13,15 @@ const testimonials = [
 ]
 
 const Testimonials = () => {
+  const containerRef = useRef(null)
+  const isInView = useInView(containerRef, { once: false, margin: '-100px' })
+
   return (
     <section className="relative bg-[#050b16] text-white py-28 px-6 lg:px-16 overflow-hidden">
-      {/* Background Glows */}
       <div className="absolute -top-24 -left-24 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl" />
       <div className="absolute bottom-0 -right-24 w-[30rem] h-[30rem] bg-cyan-400/10 rounded-full blur-3xl" />
 
-      <div className="relative max-w-5xl mx-auto">
+      <div ref={containerRef} className="relative max-w-5xl mx-auto">
         <h2 className="text-4xl md:text-5xl font-bold text-center mb-16">
           What Our <span className="text-blue-400">Customers Say</span>
         </h2>
@@ -28,9 +30,9 @@ const Testimonials = () => {
           {testimonials.map((testi, idx) => (
             <motion.div
               key={idx}
-              initial={{ opacity: 0, x: -100 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: idx * 0.3, duration: 1, ease: 'easeOut' }}
+              initial={{ opacity: 0, x: idx % 2 === 0 ? -100 : 100 }}
+              animate={isInView ? { opacity: 1, x: 0 } : {}}
+              transition={{ delay: idx * 0.2, duration: 1, ease: 'easeOut' }}
               className="
                 bg-gradient-to-br from-[#0a1a2f] to-[#020816]
                 rounded-2xl p-8 border border-blue-500/20
