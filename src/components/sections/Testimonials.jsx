@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react';
-import { gsap } from 'gsap';
+import React, { useEffect, useRef } from 'react'
+import { gsap } from 'gsap'
 
 const testimonials = [
   {
@@ -10,10 +10,10 @@ const testimonials = [
     text: 'Reliable appliances with excellent after-sales support.',
     author: '– Verified customer',
   },
-];
+]
 
 const Testimonials = () => {
-  const cardsRef = useRef([]);
+  const cardsRef = useRef([])
 
   useEffect(() => {
     gsap.from(cardsRef.current, {
@@ -22,26 +22,45 @@ const Testimonials = () => {
       stagger: 0.3,
       duration: 1,
       ease: 'power3.out',
-    });
-  }, []);
+    })
+  }, [])
 
   return (
-    <section className="py-20 bg-black text-white">
-      <h2 className="text-4xl font-bold text-center mb-12">Testimonials</h2>
-      <div className="max-w-5xl mx-auto space-y-8 px-6">
-        {testimonials.map((testi, idx) => (
-          <div
-            key={idx}
-            ref={(el) => (cardsRef.current[idx] = el)}
-            className="bg-gradient-to-br from-[#08192f] to-[#020816] rounded-xl p-6 shadow-lg border border-blue-500/20"
-          >
-            <p className="text-lg mb-4 text-gray-300">&quot;{testi.text}&quot;</p>
-            <p className="text-right italic text-blue-400">{testi.author}</p>
-          </div>
-        ))}
+    <section className="relative bg-[#050b16] text-white py-28 px-6 lg:px-16 overflow-hidden">
+      {/* Background Glows */}
+      <div className="absolute -top-24 -left-24 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl" />
+      <div className="absolute bottom-0 -right-24 w-[30rem] h-[30rem] bg-cyan-400/10 rounded-full blur-3xl" />
+
+      <div className="relative max-w-5xl mx-auto">
+        <h2 className="text-4xl md:text-5xl font-bold text-center mb-16">
+          What Our <span className="text-blue-400">Customers Say</span>
+        </h2>
+
+        <div className="space-y-10">
+          {testimonials.map((testi, idx) => (
+            <div
+              key={idx}
+              ref={(el) => (cardsRef.current[idx] = el)}
+              className="
+                bg-gradient-to-br from-[#0a1a2f] to-[#020816]
+                rounded-2xl p-8 border border-blue-500/20
+                shadow-lg hover:shadow-2xl
+                hover:border-blue-400/40 transition-all duration-500
+              "
+            >
+              <p className="text-lg text-gray-300 leading-relaxed mb-6">
+                “{testi.text}”
+              </p>
+
+              <p className="text-right italic text-blue-400 text-sm">
+                {testi.author}
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default Testimonials;
+export default Testimonials

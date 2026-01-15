@@ -31,29 +31,42 @@ const ProductShowcase = () => {
   }, []);
 
   return (
-    <section className="py-20 bg-black text-white">
-      <h2 className="text-4xl font-bold text-center mb-12">Our Products</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 px-6 md:px-20">
-        {products.map((product, idx) => (
-          <div
-            key={idx}
-            ref={(el) => (cardsRef.current[idx] = el)}
-            className="bg-gradient-to-br from-[#08192f] to-[#020816] rounded-xl p-4 shadow-lg hover:shadow-2xl transition-shadow duration-500 border border-blue-500/20"
-          >
-            <img
-              src={product.image}
-              alt={product.name}
-              className="w-full h-56 object-cover rounded-lg mb-4 select-none"
-              style={{
-                WebkitTapHighlightColor: "transparent",
-                userSelect: "none",
-                outline: "none",
-              }}
-              draggable={false}
-            />
-            <h3 className="text-xl font-semibold text-blue-400">{product.name}</h3>
-          </div>
-        ))}
+    <section className="relative bg-[#050b16] text-white py-28 px-6 lg:px-16 overflow-hidden">
+      {/* Background Glows */}
+      <div className="absolute -top-24 -left-24 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl" />
+      <div className="absolute bottom-0 -right-24 w-[30rem] h-[30rem] bg-cyan-400/10 rounded-full blur-3xl" />
+
+      <div className="relative max-w-7xl mx-auto">
+        <h2 className="text-4xl md:text-5xl font-bold text-center mb-16">
+          Our <span className="text-blue-400">Products</span>
+        </h2>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
+          {products.map((product, idx) => (
+            <div
+              key={idx}
+              ref={(el) => (cardsRef.current[idx] = el)}
+              className="bg-gradient-to-br from-[#0a1a2f] to-[#020816] 
+                         rounded-2xl p-5 border border-blue-500/20 
+                         shadow-lg hover:shadow-2xl 
+                         hover:border-blue-400/40 transition-all duration-500"
+            >
+              <img
+                src={product.image}
+                alt={product.name}
+                className="w-full h-56 object-cover rounded-xl mb-5 select-none"
+                draggable={false}
+              />
+
+              <h3 className="text-xl font-semibold text-blue-400">
+                {product.name}
+              </h3>
+              <p className="text-gray-400 text-sm mt-2">
+                Premium quality appliance designed for modern living.
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
