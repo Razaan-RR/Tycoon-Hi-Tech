@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react'
-import { gsap } from 'gsap'
+import React from 'react'
+import { motion } from 'framer-motion'
 
 const testimonials = [
   {
@@ -13,18 +13,6 @@ const testimonials = [
 ]
 
 const Testimonials = () => {
-  const cardsRef = useRef([])
-
-  useEffect(() => {
-    gsap.from(cardsRef.current, {
-      opacity: 0,
-      x: -100,
-      stagger: 0.3,
-      duration: 1,
-      ease: 'power3.out',
-    })
-  }, [])
-
   return (
     <section className="relative bg-[#050b16] text-white py-28 px-6 lg:px-16 overflow-hidden">
       {/* Background Glows */}
@@ -38,9 +26,11 @@ const Testimonials = () => {
 
         <div className="space-y-10">
           {testimonials.map((testi, idx) => (
-            <div
+            <motion.div
               key={idx}
-              ref={(el) => (cardsRef.current[idx] = el)}
+              initial={{ opacity: 0, x: -100 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: idx * 0.3, duration: 1, ease: 'easeOut' }}
               className="
                 bg-gradient-to-br from-[#0a1a2f] to-[#020816]
                 rounded-2xl p-8 border border-blue-500/20
@@ -55,7 +45,7 @@ const Testimonials = () => {
               <p className="text-right italic text-blue-400 text-sm">
                 {testi.author}
               </p>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

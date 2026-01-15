@@ -14,6 +14,7 @@
     "classnames": "^2.5.1",
     "clsx": "^2.1.1",
     "emailjs-com": "^3.2.0",
+    "framer-motion": "^12.26.2",
     "gsap": "^3.14.2",
     "locomotive-scroll": "^4.1.4",
     "react": "^19.2.0",

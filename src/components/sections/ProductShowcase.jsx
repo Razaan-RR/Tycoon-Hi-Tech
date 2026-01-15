@@ -1,35 +1,23 @@
-import React, { useEffect, useRef } from "react";
-import { gsap } from "gsap";
+import React from 'react'
+import { motion } from 'framer-motion'
 
-import Refrigerator from "../../assets/fridge.jpeg";
-import mixer from "../../assets/mixer-grinder.jpeg";
-import cooker from "../../assets/rice-cooker.jpeg";
-import comforter from "../../assets/room-comforter.jpeg";
-import TV from "../../assets/TV.jpeg";
-import Fan from "../../assets/fan-1.jpeg";
+import Refrigerator from '../../assets/fridge.jpeg'
+import mixer from '../../assets/mixer-grinder.jpeg'
+import cooker from '../../assets/rice-cooker.jpeg'
+import comforter from '../../assets/room-comforter.jpeg'
+import TV from '../../assets/TV.jpeg'
+import Fan from '../../assets/fan-1.jpeg'
 
 const products = [
-  { name: "Refrigerator", image: Refrigerator },
-  { name: "Mixer Grinder", image: mixer },
-  { name: "LED Television", image: TV },
-  { name: "Rice Cooker", image: cooker },
-  { name: "Room Comforter", image: comforter },
-  { name: "Fan", image: Fan },
-];
+  { name: 'Refrigerator', image: Refrigerator },
+  { name: 'Mixer Grinder', image: mixer },
+  { name: 'LED Television', image: TV },
+  { name: 'Rice Cooker', image: cooker },
+  { name: 'Room Comforter', image: comforter },
+  { name: 'Fan', image: Fan },
+]
 
 const ProductShowcase = () => {
-  const cardsRef = useRef([]);
-
-  useEffect(() => {
-    gsap.from(cardsRef.current, {
-      opacity: 0,
-      y: 50,
-      stagger: 0.2,
-      duration: 1,
-      ease: "power3.out",
-    });
-  }, []);
-
   return (
     <section className="relative bg-[#050b16] text-white py-28 px-6 lg:px-16 overflow-hidden">
       {/* Background Glows */}
@@ -43,9 +31,11 @@ const ProductShowcase = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
           {products.map((product, idx) => (
-            <div
+            <motion.div
               key={idx}
-              ref={(el) => (cardsRef.current[idx] = el)}
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: idx * 0.2, duration: 1, ease: 'easeOut' }}
               className="bg-gradient-to-br from-[#0a1a2f] to-[#020816] 
                          rounded-2xl p-5 border border-blue-500/20 
                          shadow-lg hover:shadow-2xl 
@@ -64,12 +54,12 @@ const ProductShowcase = () => {
               <p className="text-gray-400 text-sm mt-2">
                 Premium quality appliance designed for modern living.
               </p>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default ProductShowcase;
+export default ProductShowcase
